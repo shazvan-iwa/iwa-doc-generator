@@ -20,6 +20,7 @@ app.get('/:type/:so_id', async (req, res) => {
     var request = req.params
     if(request.so_id && request.so_id.length !== 18 ){
         res.send({err: 'Enter Valid SO ID'})
+        return;
       }
       
       try {
