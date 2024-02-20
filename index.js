@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 3000;
 
 
 
-app.get('/:type/:so_id', async (req, res) => {
+app.get('/:version/:type/:so_id', async (req, res) => {
 
     var request = req.params
     if(request.so_id && request.so_id.length !== 18 ){
@@ -21,12 +21,13 @@ app.get('/:type/:so_id', async (req, res) => {
       }
       
       try {
+
         var token = await axios.post(
-          'https://internationalwaterassociation--partial.sandbox.my.salesforce.com/services/oauth2/token?grant_type=password&client_id=3MVG9sh10GGnD4Ds.YgG5M63AQqd5WcX.aN8zMxgKNLBHXd_cyOSsKSWOP7ODRLmfXwcFh5oOXTncxgq5UEZf&client_secret=3E3381FE54DDD1CEC12718A6E58711BB7A8F570714AAF135B32A8D925EE3E66E&username=connectplus_frontend@iwahq.org&password=Admin!2345'
+            request.version == 'v1'?process.env.SF_LOGIN_PRO:process.env.SF_LOGIN
         );
   
         var conn = new jsforce.Connection({
-          instanceUrl: 'https://internationalwaterassociation--partial.sandbox.my.salesforce.com',
+          instanceUrl: request.version == 'v1'?process.env.SF_BASEURL_PRO:process.env.SF_BASEURL,
           accessToken: token.data.access_token,
         });
         
