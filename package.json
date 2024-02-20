@@ -14,6 +14,7 @@
     "convert-html-to-pdf": "^1.0.1",
     "express": "^4.18.2",
     "jsforce": "^1.11.1",
-    "moment": "^2.30.1"
+    "moment": "^2.30.1",
+    "puppeteer": "^22.1.0",
   }
 }
