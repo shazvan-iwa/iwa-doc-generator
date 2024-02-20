@@ -13,11 +13,11 @@ const PORT = process.env.PORT || 3000;
 
 
 
-app.get('/:version/:type/:so_id', async (req, res) => {
+app.get('/:version/:cat/:type/:so_id', async (req, res) => {
 
     var request = req.params
-    if (request.so_id && request.so_id.length !== 18) {
-        res.send('Enter Valid SO ID')
+    if (request.version && request.cat && request.type && request.so_id && request.so_id.length !== 18) {
+        res.send('Enter Valid URL')
         return;
     }
 
