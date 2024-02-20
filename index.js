@@ -9,6 +9,11 @@ const HTMLToPDF = require('convert-html-to-pdf').default;
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+const browser = await puppeteer.launch({
+    headless: true,
+    args: ['--no-sandbox','--disable-setuid-sandbox']
+  })
+
 app.get('/:type/:so_id', async (req, res) => {
 
     var request = req.params
