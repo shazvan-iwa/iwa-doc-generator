@@ -148,7 +148,7 @@ app.get('/:version/:cat/:type/:so_id', async (req, res) => {
                                         1 Clove Crescent<br />
                                         London E14 2BA, UK</p>
                                     <p class="my-0">Tel: +44 (0)208 054 8215</p>
-                                    <p class="my-0">Fax: +44 (0)20 7654 5555</p>
+                                    <p class="my-0">Fax: +44 (0)207 654 5555</p>
                                 </div>
                             </div>
                         </div>
@@ -205,7 +205,7 @@ app.get('/:version/:cat/:type/:so_id', async (req, res) => {
                                             </tbody>
                                         <tfoot>
                                             <tr >
-                                                <td rowspan="3" colspan="2" style="vertical-align: bottom;">
+                                                <td rowspan="3" colspan="2">
                                                     <p class="my-0"><b>VAT Reg. No:</b> GB 740 4457 45</p>
                                                     <p class="my-0"><b>Terms:</b> Payment due on receipt of invoice, please quote invoice number with payment for easy reference .</p>
                                                 </td>
