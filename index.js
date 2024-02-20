@@ -7,7 +7,7 @@ const moment = require('moment');
 const HTMLToPDF = require('convert-html-to-pdf').default;
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 app.get('/:type/:so_id', async (req, res) => {
 
