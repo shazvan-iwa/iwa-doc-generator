@@ -9,10 +9,7 @@ const HTMLToPDF = require('convert-html-to-pdf').default;
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const browser = puppeteer.launch({
-    headless: true,
-    args: ['--no-sandbox','--disable-setuid-sandbox']
-  })
+
 
 
 app.get('/:type/:so_id', async (req, res) => {
@@ -258,7 +255,15 @@ app.get('/:type/:so_id', async (req, res) => {
             
             </html>
             `
-            const htmlToPDF = new HTMLToPDF(html)
+            
+            
+            var option = {
+                browserOptions:{
+                    headless: true,
+                    args: ['--no-sandbox','--disable-setuid-sandbox']
+                }
+            }
+            const htmlToPDF = new HTMLToPDF(html, option)
     
             const pdf = await htmlToPDF.convert({waitForNetworkIdle: true, browserOptions: {defaultViewport: {width: 1920, height: 1080}}, pdfOptions: {height: 1200, width:900, timeout: 0}})
             resolve(pdf)
