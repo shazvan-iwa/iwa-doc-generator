@@ -1,0 +1,19 @@
+{
+  "name": "iwa-invoice",
+  "version": "1.0.0",
+  "description": "iwa-invoice ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "heroku-postbuild": "mkdir ./.cache && mv /app/.cache/puppeteer ./.cache"
+  },
+  "author": "Shanif",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.6.7",
+    "convert-html-to-pdf": "^1.0.1",
+    "express": "^4.18.2",
+    "jsforce": "^1.11.1",
+    "moment": "^2.30.1"
+  }
+}
