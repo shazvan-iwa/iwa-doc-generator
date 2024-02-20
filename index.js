@@ -2,6 +2,7 @@ const express = require('express');
 const jsforce = require("jsforce");
 const axios = require("axios");
 const moment = require('moment');
+const puppeteer = require('puppeteer');
 //https://elements.heroku.com/buildpacks/jontewks/puppeteer-heroku-buildpack
 //heroku builds:cache:purge -a <appname>
 const HTMLToPDF = require('convert-html-to-pdf').default;
@@ -9,10 +10,7 @@ const HTMLToPDF = require('convert-html-to-pdf').default;
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-const browser = await puppeteer.launch({
-    headless: true,
-    args: ['--no-sandbox','--disable-setuid-sandbox']
-  })
+
 
 app.get('/:type/:so_id', async (req, res) => {
 
@@ -20,7 +18,10 @@ app.get('/:type/:so_id', async (req, res) => {
     if(request.so_id && request.so_id.length !== 18 ){
         res.send({err: 'Enter Valid SO ID'})
       }
-  
+      const browser = await puppeteer.launch({
+        headless: true,
+        args: ['--no-sandbox','--disable-setuid-sandbox']
+      })
       try {
         var token = await axios.post(
           'https://internationalwaterassociation--partial.sandbox.my.salesforce.com/services/oauth2/token?grant_type=password&client_id=3MVG9sh10GGnD4Ds.YgG5M63AQqd5WcX.aN8zMxgKNLBHXd_cyOSsKSWOP7ODRLmfXwcFh5oOXTncxgq5UEZf&client_secret=3E3381FE54DDD1CEC12718A6E58711BB7A8F570714AAF135B32A8D925EE3E66E&username=connectplus_frontend@iwahq.org&password=Admin!2345'
