@@ -128,7 +128,6 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
                             color: #fff;
                         }
                         .payment-method {
-                            background: #00aeef !important;
                             color: #000000;
                         }
                 
