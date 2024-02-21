@@ -24,7 +24,7 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
     return;
   }
 
-  //try {
+  try {
   var token = await axios.post(
     request.version == "v1" ? process.env.SF_LOGIN_PRO : process.env.SF_LOGIN
   );
@@ -57,7 +57,7 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
         return result.records;
       }
     );
-  } else if (request.type == "reciept") {
+  } else if (request.type == "receipt") {
     var SoData = await conn.query(
       `select Id, Name, OrderApi__Total__c, OrderApi__Payment_Type__c, OrderApi__Applied_Amount__c, CurrencyIsoCode, OrderApi__Date__c,  OrderApi__Billing_City__c, OrderApi__Billing_Contact__c, OrderApi__Billing_Country__c, OrderApi__Billing_Postal_Code__c, OrderApi__Billing_State__c, OrderApi__Billing_Street__c, OrderApi__Contact__r.FON_Contact_Ref__c from OrderApi__Receipt__c where Id = '${request.so_id}'`,
       function (err, result) {
@@ -408,10 +408,10 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
   } else {
     res.send("No Data");
   }
-  //} catch (error) {
-  // res.send({ err2: error });
-  //return;
-  //}
+  } catch (error) {
+   res.send("Sorry! Try again later..");
+    return;
+  }
 
   return;
 });
