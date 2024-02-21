@@ -182,8 +182,8 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
                         <div class="container-fluid mt-1">
                             <div class="row">
                                 <div class="col-8">
-                                    <p id="cut_name" class="fs-6 my-0">${
-                                        SoData[0]?OrderApi__Contact__r?.Salutation + SoData[0]?.OrderApi__Billing_Contact__c
+                                    <p id="cut_name" class="fs-6 my-0">${SoData[0]?.OrderApi__Contact__r?.Salutation}${
+                                         SoData[0]?.OrderApi__Billing_Contact__c
                                     }</p>
                                     <p id="cut_add_street" class="fs-6 my-0">${
                                       SoData[0]?.OrderApi__Billing_Street__c
@@ -265,7 +265,13 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
                                             <tr >
                                                 <td rowspan="3" colspan="2">
                                                     <p class="my-0"><b>VAT Reg. No:</b> GB 740 4457 45</p>
-                                                    <p class="my-0"><b>Terms:</b> Payment due on receipt of invoice, please quote invoice number with payment for reference .</p>
+                                                    <p class="my-0"><b>Terms:</b> 
+                                                    ${
+                                                        request.type == "invoice"
+                                                    ? 'Payment due on receipt of invoice, please quote invoice number with payment for reference.'
+                                                    : 'Payment received '
+                                                    }
+                                                    </p>
                                                 </td>
                                                 <td><p class="my-0">NET</p></td>
                                                 <td class="text-end"><p class="my-0">${await convertCurrency(
