@@ -406,7 +406,7 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
     res.set("Content-Type", "application/pdf");
     res.set(
       "Content-disposition",
-      `attachment;filename=${SoData[0].Name}-${moment(CurDate).format(
+      `attachment;filename=${request.type}-${SoData[0].Name}-${moment(CurDate).format(
         "DD-MM-YYYY"
       )}.pdf`
     );
