@@ -284,7 +284,7 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
                                                 )}</p></td>
                                             </tr>
                                             <tr>
-                                                <td colspan="2"><p class="my-0">VAT</p></td>
+                                                <td><p class="my-0">VAT</p></td>
                                                 <td class="text-end"><p class="my-0">${await convertCurrency(
                                                   0,
                                                   SoData[0].CurrencyIsoCode
@@ -306,7 +306,7 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
                                                   ? ""
                                                   : `
                                                   <tr class="">
-                                                    <td class="payment-method"><p class="mb-1"><b>Payment Method:</b> ${SoData[0].OrderApi__Payment_Type__c}</p></td>
+                                                    <td class="payment-method" colspan="2"><p class="mb-1"><b>Payment Method:</b> ${SoData[0].OrderApi__Payment_Type__c}</p></td>
                                                     <td class="payment-method"><p class="my-0">PAID</p></td>
                                                     <td class="payment-method text-end"><p class="my-0">${await convertCurrency(
                                                         SoData[0]
