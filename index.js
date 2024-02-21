@@ -38,7 +38,7 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
   });
   if (request.type == "invoice") {
     var SoData = await conn.query(
-      `select Id, Name, OrderApi__Overall_Total__c, CurrencyIsoCode, OrderApi__Date__c, OrderApi__Paid_Date__c, OrderApi__Billing_City__c, OrderApi__Billing_Contact__c, OrderApi__Billing_Country__c, OrderApi__Billing_Postal_Code__c, OrderApi__Billing_State__c, OrderApi__Billing_Street__c, OrderApi__Contact__r.FON_Contact_Ref__c from OrderApi__Sales_Order__c where Id = '${request.so_id}'`,
+      `select Id, Name, OrderApi__Overall_Total__c, CurrencyIsoCode, OrderApi__Date__c, OrderApi__Paid_Date__c, OrderApi__Billing_City__c, OrderApi__Billing_Contact__c, OrderApi__Billing_Country__c, OrderApi__Billing_Postal_Code__c, OrderApi__Billing_State__c, OrderApi__Billing_Street__c, OrderApi__Contact__r.FON_Contact_Ref__c, OrderApi__Contact__r.Salutation, OrderApi__Contact__r.FON_Contact_Ref__c from OrderApi__Sales_Order__c where Id = '${request.so_id}'`,
       function (err, result) {
         if (err) {
           res.send({ err1: err });
@@ -59,7 +59,7 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
     );
   } else if (request.type == "receipt") {
     var SoData = await conn.query(
-      `select Id, Name, OrderApi__Total__c, OrderApi__Payment_Type__c, OrderApi__Applied_Amount__c, CurrencyIsoCode, OrderApi__Date__c,  OrderApi__Billing_City__c, OrderApi__Billing_Contact__c, OrderApi__Billing_Country__c, OrderApi__Billing_Postal_Code__c, OrderApi__Billing_State__c, OrderApi__Billing_Street__c, OrderApi__Contact__r.FON_Contact_Ref__c from OrderApi__Receipt__c where Id = '${request.so_id}'`,
+      `select Id, Name, OrderApi__Total__c, OrderApi__Payment_Type__c, OrderApi__Applied_Amount__c, CurrencyIsoCode, OrderApi__Date__c,  OrderApi__Billing_City__c, OrderApi__Billing_Contact__c, OrderApi__Billing_Country__c, OrderApi__Billing_Postal_Code__c, OrderApi__Billing_State__c, OrderApi__Billing_Street__c, OrderApi__Contact__r.Salutation, OrderApi__Contact__r.FON_Contact_Ref__c from OrderApi__Receipt__c where Id = '${request.so_id}'`,
       function (err, result) {
         if (err) {
           res.send({ err1: err });
@@ -183,7 +183,7 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
                             <div class="row">
                                 <div class="col-8">
                                     <p id="cut_name" class="fs-6 my-0">${
-                                      SoData[0]?.OrderApi__Billing_Contact__c
+                                        SoData[0]?OrderApi__Contact__r?.Salutation + SoData[0]?.OrderApi__Billing_Contact__c
                                     }</p>
                                     <p id="cut_add_street" class="fs-6 my-0">${
                                       SoData[0]?.OrderApi__Billing_Street__c
@@ -265,7 +265,7 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
                                             <tr >
                                                 <td rowspan="3" colspan="2">
                                                     <p class="my-0"><b>VAT Reg. No:</b> GB 740 4457 45</p>
-                                                    <p class="my-0"><b>Terms:</b> Payment due on receipt of invoice, please quote invoice number with payment for easy reference .</p>
+                                                    <p class="my-0"><b>Terms:</b> Payment due on receipt of invoice, please quote invoice number with payment for reference .</p>
                                                 </td>
                                                 <td><p class="my-0">NET</p></td>
                                                 <td class="text-end"><p class="my-0">${await convertCurrency(
