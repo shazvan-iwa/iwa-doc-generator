@@ -38,7 +38,7 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
   });
   if (request.type == "invoice") {
     var SoData = await conn.query(
-      `select Id, Name, OrderApi__Overall_Total__c, CurrencyIsoCode, OrderApi__Date__c, OrderApi__Paid_Date__c, OrderApi__Billing_City__c, OrderApi__Billing_Contact__c, OrderApi__Billing_Country__c, OrderApi__Billing_Postal_Code__c, OrderApi__Billing_State__c, OrderApi__Billing_Street__c, OrderApi__Contact__r.FON_Contact_Ref__c, OrderApi__Contact__r.Salutation, OrderApi__Contact__r.FON_Contact_Ref__c from OrderApi__Sales_Order__c where Id = '${request.so_id}'`,
+      `select Id, Name, OrderApi__Overall_Total__c, CurrencyIsoCode, OrderApi__Date__c, OrderApi__Paid_Date__c, OrderApi__Billing_City__c, OrderApi__Billing_Contact__c, OrderApi__Billing_Country__c, OrderApi__Billing_Postal_Code__c, OrderApi__Billing_State__c, OrderApi__Billing_Street__c,  OrderApi__Contact__r.Salutation, OrderApi__Contact__r.FON_Contact_Ref__c from OrderApi__Sales_Order__c where Id = '${request.so_id}'`,
       function (err, result) {
         if (err) {
           res.send({ err1: err });
