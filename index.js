@@ -303,7 +303,7 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
                                                     <td class="payment-method"></td>
                                                     <td class="payment-method"><p class="mb-1"><b>Payment Method:</b> ${SoData[0].OrderApi__Payment_Type__c}</p></td>
                                                     <td class="payment-method"><p class="my-0">PAID</p></td>
-                                                    <td class="payment-method class="text-end""><p class="my-0">${await convertCurrency(
+                                                    <td class="payment-method text-end"><p class="my-0">${await convertCurrency(
                                                         SoData[0]
                                                           .OrderApi__Applied_Amount__c,
                                                         SoData[0].CurrencyIsoCode
