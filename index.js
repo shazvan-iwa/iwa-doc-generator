@@ -173,8 +173,8 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
                                     <p class="mb-2">Unit 104-105, Export Building<br />
                                         1 Clove Crescent<br />
                                         London E14 2BA, UK</p>
-                                    <p class="my-0">Tel: +44 (0)208 054 8215</p>
-                                    <p class="my-0">Fax: +44 (0)207 654 5555</p>
+                                    <p class="my-0 text-justify">Tel : +44 (0)208 054 8215<br/>
+                                    Fax: +44 (0)207 654 5555</p>
                                 </div>
                             </div>
                         </div>
