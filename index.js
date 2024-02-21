@@ -38,7 +38,7 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
   });
   if (request.type == "invoice") {
     var SoData = await conn.query(
-      `select Id, Name, OrderApi__Overall_Total__c, CurrencyIsoCode, OrderApi__Date__c, OrderApi__Paid_Date__c, OrderApi__Billing_City__c, OrderApi__Billing_Contact__c, OrderApi__Billing_Country__c, OrderApi__Billing_Postal_Code__c, OrderApi__Billing_State__c, OrderApi__Billing_Street__c,  OrderApi__Contact__r.Salutation, OrderApi__Contact__r.FON_Contact_Ref__c from OrderApi__Sales_Order__c where Id = '${request.so_id}'`,
+      `select Id, Name, OrderApi__Overall_Total__c, CurrencyIsoCode, OrderApi__Date__c, OrderApi__Paid_Date__c, OrderApi__Billing_City__c, OrderApi__Billing_Contact__c, OrderApi__Billing_Country__c, OrderApi__Billing_Postal_Code__c, OrderApi__Billing_State__c, OrderApi__Billing_Street__c,  OrderApi__Contact__r.Salutation, OrderApi__Contact__r.FON_Contact_Ref__c from OrderApi__Sales_Order__c where Id = '${request.so_id}' order by Id asc`,
       function (err, result) {
         if (err) {
           res.send({ err1: err });
@@ -48,7 +48,7 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
       }
     );
     var SoLineData = await conn.query(
-      `select Id, OrderApi__Sale_Price__c, OrderApi__Sales_Order__c, OrderApi__Item__r.FON_Journal_Item__c, OrderApi__Item_Name__c, OrderApi__Subscription_Plan__r.Name, OrderApi__Quantity__c, OrderApi__Subscription_Start_Date__c, OrderApi__End_Date__c, OrderApi__Subtotal__c, CurrencyIsoCode from OrderApi__Sales_Order_Line__c  where OrderApi__Sales_Order__c = '${request.so_id}'`,
+      `select Id, OrderApi__Sale_Price__c, OrderApi__Sales_Order__c, OrderApi__Item__r.FON_Journal_Item__c, OrderApi__Item_Name__c, OrderApi__Subscription_Plan__r.Name, OrderApi__Quantity__c, OrderApi__Subscription_Start_Date__c, OrderApi__End_Date__c, OrderApi__Subtotal__c, CurrencyIsoCode from OrderApi__Sales_Order_Line__c  where OrderApi__Sales_Order__c = '${request.so_id}' order by Id asc`,
       function (err, result) {
         if (err) {
           res.send({ err2: err });
@@ -59,7 +59,7 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
     );
   } else if (request.type == "receipt") {
     var SoData = await conn.query(
-      `select Id, Name, OrderApi__Total__c, OrderApi__Payment_Type__c, OrderApi__Applied_Amount__c, CurrencyIsoCode, OrderApi__Date__c,  OrderApi__Billing_City__c, OrderApi__Billing_Contact__c, OrderApi__Billing_Country__c, OrderApi__Billing_Postal_Code__c, OrderApi__Billing_State__c, OrderApi__Billing_Street__c, OrderApi__Contact__r.Salutation, OrderApi__Contact__r.FON_Contact_Ref__c from OrderApi__Receipt__c where Id = '${request.so_id}'`,
+      `select Id, Name, OrderApi__Total__c, OrderApi__Payment_Type__c, OrderApi__Applied_Amount__c, CurrencyIsoCode, OrderApi__Date__c,  OrderApi__Billing_City__c, OrderApi__Billing_Contact__c, OrderApi__Billing_Country__c, OrderApi__Billing_Postal_Code__c, OrderApi__Billing_State__c, OrderApi__Billing_Street__c, OrderApi__Contact__r.Salutation, OrderApi__Contact__r.FON_Contact_Ref__c from OrderApi__Receipt__c where Id = '${request.so_id}' order by Id asc`,
       function (err, result) {
         if (err) {
           res.send({ err1: err });
@@ -69,7 +69,7 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
       }
     );
     var SoLineData = await conn.query(
-      `select Id, OrderApi__Sale_Price__c, OrderApi__Sales_Order__c, OrderApi__Item__r.FON_Journal_Item__c, OrderApi__Item_Name__c, OrderApi__Subscription_Plan__r.Name, OrderApi__Quantity__c,   OrderApi__Subtotal__c, CurrencyIsoCode from OrderApi__Receipt_Line__c  where OrderApi__Receipt__c = '${request.so_id}'`,
+      `select Id, OrderApi__Sale_Price__c, OrderApi__Sales_Order__c, OrderApi__Item__r.FON_Journal_Item__c, OrderApi__Item_Name__c, OrderApi__Subscription_Plan__r.Name, OrderApi__Quantity__c,   OrderApi__Subtotal__c, CurrencyIsoCode from OrderApi__Receipt_Line__c  where OrderApi__Receipt__c = '${request.so_id}' order by Id asc`,
       function (err, result) {
         if (err) {
           res.send({ err2: err });
@@ -284,7 +284,7 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
                                                 )}</p></td>
                                             </tr>
                                             <tr>
-                                                <td><p class="my-0">VAT</p></td>
+                                                <td colspan="2"><p class="my-0">VAT</p></td>
                                                 <td class="text-end"><p class="my-0">${await convertCurrency(
                                                   0,
                                                   SoData[0].CurrencyIsoCode
@@ -306,7 +306,6 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
                                                   ? ""
                                                   : `
                                                   <tr class="">
-                                                    <td class="payment-method"></td>
                                                     <td class="payment-method"><p class="mb-1"><b>Payment Method:</b> ${SoData[0].OrderApi__Payment_Type__c}</p></td>
                                                     <td class="payment-method"><p class="my-0">PAID</p></td>
                                                     <td class="payment-method text-end"><p class="my-0">${await convertCurrency(
