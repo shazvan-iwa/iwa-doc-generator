@@ -407,7 +407,7 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
     res.set(
       "Content-disposition",
       `attachment;filename=${request.type}-${SoData[0].Name}-${moment(CurDate).format(
-        "DD-MM-YYYY"
+        "DD-MM-YYYY hh-mm-ss"
       )}.pdf`
     );
     res.send(result);
