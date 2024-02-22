@@ -185,20 +185,20 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
                                          SoData[0]?.OrderApi__Billing_Contact__c
                                     }</p>
                                     <p id="cut_add_street" class="fs-6 my-0">${
-                                      SoData[0]?.OrderApi__Billing_Street__c
+                                      SoData[0]?.OrderApi__Billing_Street__c?.length > 0 ? SoData[0]?.OrderApi__Billing_Street__c : ''
                                     }</p>
                                     <p id="cut_add_city" class="fs-6 my-0">${
-                                      SoData[0]?.OrderApi__Billing_City__c
+                                      SoData[0]?.OrderApi__Billing_City__c?.length > 0 ? SoData[0]?.OrderApi__Billing_City__c : ''
                                     }</p>
                                     <p id="cut_add_state" class="fs-6 my-0">${
-                                      SoData[0]?.OrderApi__Billing_State__c
+                                      SoData[0]?.OrderApi__Billing_State__c?.length > 0 ? SoData[0]?.OrderApi__Billing_State__c : ''
                                     }</p>
                                     <p id="cut_add_pc" class="fs-6 my-0">${
                                       SoData[0]
-                                        ?.OrderApi__Billing_Postal_Code__c
+                                        ?.OrderApi__Billing_Postal_Code__c?.length > 0 ? SoData[0]?.OrderApi__Billing_Postal_Code__c : ''
                                     }</p>
                                     <p id="cut_add_country" class="fs-6 my-0">${
-                                      SoData[0]?.OrderApi__Billing_Country__c
+                                      SoData[0]?.OrderApi__Billing_Country__c?.length > 0 ? SoData[0]?.OrderApi__Billing_Country__c : ''
                                     }</p>
                                 </div>
                                 <div class="col-4">
