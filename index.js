@@ -193,9 +193,9 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
                                         ? SoData[0]?.OrderApi__Contact__r
                                             ?.Salutation
                                         : ""
-                                    }${
-            SoData[0]?.OrderApi__Billing_Contact__c
-          }</p>
+                                                              }${
+                                      SoData[0]?.OrderApi__Billing_Contact__c
+                                    }</p>
                                     <p id="cut_add_street" class="fs-6 my-0">${
                                       SoData[0]?.OrderApi__Billing_Street__c
                                         ?.length > 0
