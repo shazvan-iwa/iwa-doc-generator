@@ -25,73 +25,73 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
   }
 
   try {
-  var token = await axios.post(
-    request.version == "v1" ? process.env.SF_LOGIN_PRO : process.env.SF_LOGIN
-  );
-
-  var conn = new jsforce.Connection({
-    instanceUrl:
-      request.version == "v1"
-        ? process.env.SF_BASEURL_PRO
-        : process.env.SF_BASEURL,
-    accessToken: token.data.access_token,
-  });
-  if (request.type == "invoice") {
-    var SoData = await conn.query(
-      `select Id, Name, OrderApi__Overall_Total__c, CurrencyIsoCode, OrderApi__Date__c, OrderApi__Paid_Date__c, OrderApi__Billing_City__c, OrderApi__Billing_Contact__c, OrderApi__Billing_Country__c, OrderApi__Billing_Postal_Code__c, OrderApi__Billing_State__c, OrderApi__Billing_Street__c,  OrderApi__Contact__r.Salutation, OrderApi__Contact__r.FON_Contact_Ref__c from OrderApi__Sales_Order__c where Id = '${request.so_id}' order by Id asc`,
-      function (err, result) {
-        if (err) {
-          res.send({ err1: err });
-          return;
-        }
-        return result.records;
-      }
+    var token = await axios.post(
+      request.version == "v1" ? process.env.SF_LOGIN_PRO : process.env.SF_LOGIN
     );
-    var SoLineData = await conn.query(
-      `select Id, OrderApi__Sale_Price__c, OrderApi__Sales_Order__c, OrderApi__Item__r.FON_Journal_Item__c, OrderApi__Item_Name__c, OrderApi__Subscription_Plan__r.Name, OrderApi__Quantity__c, OrderApi__Subscription_Start_Date__c, OrderApi__End_Date__c, OrderApi__Subtotal__c, CurrencyIsoCode from OrderApi__Sales_Order_Line__c  where OrderApi__Sales_Order__c = '${request.so_id}' order by Id asc`,
-      function (err, result) {
-        if (err) {
-          res.send({ err2: err });
-          return;
-        }
-        return result.records;
-      }
-    );
-  } else if (request.type == "receipt") {
-    var SoData = await conn.query(
-      `select Id, Name, OrderApi__Total__c, OrderApi__Payment_Type__c, OrderApi__Applied_Amount__c, CurrencyIsoCode, OrderApi__Date__c,  OrderApi__Billing_City__c, OrderApi__Billing_Contact__c, OrderApi__Billing_Country__c, OrderApi__Billing_Postal_Code__c, OrderApi__Billing_State__c, OrderApi__Billing_Street__c, OrderApi__Contact__r.Salutation, OrderApi__Contact__r.FON_Contact_Ref__c from OrderApi__Receipt__c where Id = '${request.so_id}' order by Id asc`,
-      function (err, result) {
-        if (err) {
-          res.send({ err1: err });
-          return;
-        }
-        return result.records;
-      }
-    );
-    var SoLineData = await conn.query(
-      `select Id, OrderApi__Sale_Price__c, OrderApi__Sales_Order__c, OrderApi__Item__r.FON_Journal_Item__c, OrderApi__Item_Name__c, OrderApi__Subscription_Plan__r.Name, OrderApi__Quantity__c,   OrderApi__Subtotal__c, CurrencyIsoCode from OrderApi__Receipt_Line__c  where OrderApi__Receipt__c = '${request.so_id}' order by Id asc`,
-      function (err, result) {
-        if (err) {
-          res.send({ err2: err });
-          return;
-        }
-        return result.records;
-      }
-    );
-  }
 
-  if (SoLineData.length > 0) {
-    var SOLineTxt = await processInvLine(SoLineData);
-  } else {
-    var SOLineTxt = [];
-  }
+    var conn = new jsforce.Connection({
+      instanceUrl:
+        request.version == "v1"
+          ? process.env.SF_BASEURL_PRO
+          : process.env.SF_BASEURL,
+      accessToken: token.data.access_token,
+    });
+    if (request.type == "invoice") {
+      var SoData = await conn.query(
+        `select Id, Name, OrderApi__Account__r.FON_Account_Ref__c, OrderApi__Account__r.Name, OrderApi__Overall_Total__c, CurrencyIsoCode, OrderApi__Date__c, OrderApi__Paid_Date__c, OrderApi__Billing_City__c, OrderApi__Billing_Contact__c, OrderApi__Billing_Country__c, OrderApi__Billing_Postal_Code__c, OrderApi__Billing_State__c, OrderApi__Billing_Street__c,  OrderApi__Contact__r.Salutation, OrderApi__Contact__r.FON_Contact_Ref__c from OrderApi__Sales_Order__c where Id = '${request.so_id}' order by Id asc`,
+        function (err, result) {
+          if (err) {
+            res.send({ err1: err });
+            return;
+          }
+          return result.records;
+        }
+      );
+      var SoLineData = await conn.query(
+        `select Id, Price_Rule_Name__c, OrderApi__Sale_Price__c, OrderApi__Sales_Order__c, OrderApi__Item__r.FON_Journal_Item__c, OrderApi__Item_Name__c, OrderApi__Subscription_Plan__r.Name, OrderApi__Quantity__c, OrderApi__Subscription_Start_Date__c, OrderApi__End_Date__c, OrderApi__Subtotal__c, CurrencyIsoCode from OrderApi__Sales_Order_Line__c  where OrderApi__Sales_Order__c = '${request.so_id}' order by Id asc`,
+        function (err, result) {
+          if (err) {
+            res.send({ err2: err });
+            return;
+          }
+          return result.records;
+        }
+      );
+    } else if (request.type == "receipt") {
+      var SoData = await conn.query(
+        `select Id, Name, OrderApi__Account__r.FON_Account_Ref__c, OrderApi__Account__r.Name, OrderApi__Total__c, OrderApi__Payment_Type__c, OrderApi__Applied_Amount__c, CurrencyIsoCode, OrderApi__Date__c,  OrderApi__Billing_City__c, OrderApi__Billing_Contact__c, OrderApi__Billing_Country__c, OrderApi__Billing_Postal_Code__c, OrderApi__Billing_State__c, OrderApi__Billing_Street__c, OrderApi__Contact__r.Salutation, OrderApi__Contact__r.FON_Contact_Ref__c from OrderApi__Receipt__c where Id = '${request.so_id}' order by Id asc`,
+        function (err, result) {
+          if (err) {
+            res.send({ err1: err });
+            return;
+          }
+          return result.records;
+        }
+      );
+      var SoLineData = await conn.query(
+        `select Id, OrderApi__Sale_Price__c, OrderApi__Sales_Order__c, OrderApi__Item__r.FON_Journal_Item__c, OrderApi__Item_Name__c, OrderApi__Subscription_Plan__r.Name, OrderApi__Quantity__c,   OrderApi__Subtotal__c, CurrencyIsoCode from OrderApi__Receipt_Line__c  where OrderApi__Receipt__c = '${request.so_id}' order by Id asc`,
+        function (err, result) {
+          if (err) {
+            res.send({ err2: err });
+            return;
+          }
+          return result.records;
+        }
+      );
+    }
 
-  var CurDate = new Date();
+    if (SoLineData.length > 0) {
+      var SOLineTxt = await processInvLine(SoLineData, request);
+    } else {
+      var SOLineTxt = [];
+    }
 
-  if (SoData.length > 0) {
-    var result = await new Promise(async (resolve, reject) => {
-      try {
-        const html = `<!DOCTYPE html>
+    var CurDate = new Date();
+
+    if (SoData.length > 0) {
+      var result = await new Promise(async (resolve, reject) => {
+        try {
+          const html = `<!DOCTYPE html>
                 <html lang="en">
                 
                 <head>
@@ -181,24 +181,53 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
                         <div class="container-fluid mt-1">
                             <div class="row">
                                 <div class="col-8">
-                                    <p id="cut_name" class="fs-6 my-0">${SoData[0]?.OrderApi__Contact__r?.Salutation}${
-                                         SoData[0]?.OrderApi__Billing_Contact__c
+                                    <p id="Acc_name" class="fs-6 my-0">${
+                                      SoData[0]?.OrderApi__Account__r?.Name ==
+                                      "IWA Individual Members Account"
+                                        ? ""
+                                        : SoData[0]?.OrderApi__Account__r?.Name
                                     }</p>
+                                    <p id="cut_name" class="fs-6 my-0">${
+                                      SoData[0]?.OrderApi__Contact__r
+                                        ?.Salutation?.length > 0
+                                        ? SoData[0]?.OrderApi__Contact__r
+                                            ?.Salutation
+                                        : ""
+                                    }${
+            SoData[0]?.OrderApi__Billing_Contact__c
+          }</p>
                                     <p id="cut_add_street" class="fs-6 my-0">${
-                                      SoData[0]?.OrderApi__Billing_Street__c?.length > 0 ? SoData[0]?.OrderApi__Billing_Street__c : ''
+                                      SoData[0]?.OrderApi__Billing_Street__c
+                                        ?.length > 0
+                                        ? SoData[0]?.OrderApi__Billing_Street__c
+                                        : ""
                                     }</p>
                                     <p id="cut_add_city" class="fs-6 my-0">${
-                                      SoData[0]?.OrderApi__Billing_City__c?.length > 0 ? SoData[0]?.OrderApi__Billing_City__c : ''
+                                      SoData[0]?.OrderApi__Billing_City__c
+                                        ?.length > 0
+                                        ? SoData[0]?.OrderApi__Billing_City__c
+                                        : ""
                                     }</p>
                                     <p id="cut_add_state" class="fs-6 my-0">${
-                                      SoData[0]?.OrderApi__Billing_State__c?.length > 0 ? SoData[0]?.OrderApi__Billing_State__c : ''
+                                      SoData[0]?.OrderApi__Billing_State__c
+                                        ?.length > 0
+                                        ? SoData[0]?.OrderApi__Billing_State__c
+                                        : ""
                                     }</p>
                                     <p id="cut_add_pc" class="fs-6 my-0">${
                                       SoData[0]
-                                        ?.OrderApi__Billing_Postal_Code__c?.length > 0 ? SoData[0]?.OrderApi__Billing_Postal_Code__c : ''
+                                        ?.OrderApi__Billing_Postal_Code__c
+                                        ?.length > 0
+                                        ? SoData[0]
+                                            ?.OrderApi__Billing_Postal_Code__c
+                                        : ""
                                     }</p>
                                     <p id="cut_add_country" class="fs-6 my-0">${
-                                      SoData[0]?.OrderApi__Billing_Country__c?.length > 0 ? SoData[0]?.OrderApi__Billing_Country__c : ''
+                                      SoData[0]?.OrderApi__Billing_Country__c
+                                        ?.length > 0
+                                        ? SoData[0]
+                                            ?.OrderApi__Billing_Country__c
+                                        : ""
                                     }</p>
                                 </div>
                                 <div class="col-4">
@@ -231,8 +260,14 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
                                         <tr>
                                             <td><span class="c_blue">Membership ID:</span></td>
                                             <td><span>${
-                                              SoData[0].OrderApi__Contact__r
-                                                ?.FON_Contact_Ref__c
+                                              SoData[0]?.OrderApi__Account__r
+                                                ?.Name ==
+                                              "IWA Individual Members Account"
+                                                ? SoData[0].OrderApi__Contact__r
+                                                    ?.FON_Contact_Ref__c
+                                                : SoData[0]
+                                                    ?.OrderApi__Account__r
+                                                    ?.FON_Account_Ref__c
                                             }</span></td>
                                         </tr>
                                     </table>
@@ -266,9 +301,12 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
                                                     <p class="my-0"><b>VAT Reg. No:</b> GB 740 4457 45</p>
                                                     <p class="my-0"><b>Terms:</b> 
                                                     ${
-                                                        request.type == "invoice"
-                                                    ? 'Payment due on receipt of invoice, please quote invoice number with payment for reference.'
-                                                    : 'Payment received '
+                                                      request.type == "invoice"
+                                                        ? request.cat == "E"
+                                                          ? "Payment due within 10 days of the issued invoice to retain the current ticket price. Payment due on receipt of invoice, please quote invoice number with payment for reference."
+                                                          : "" +
+                                                            "Payment due on receipt of invoice, please quote invoice number with payment for reference."
+                                                        : "Payment received "
                                                     }
                                                     </p>
                                                 </td>
@@ -301,20 +339,23 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
                                                 )}</p></td>
                                             </tr>
                                             ${
-                                                request.type == "invoice"
-                                                  ? ""
-                                                  : `
+                                              request.type == "invoice"
+                                                ? ""
+                                                : `
                                                   <tr class="">
-                                                    <td class="payment-method" colspan="2"><p class="mb-1"><b>Payment Method:</b> ${SoData[0].OrderApi__Payment_Type__c}</p></td>
+                                                    <td class="payment-method" colspan="2"><p class="mb-1"><b>Payment Method:</b> ${
+                                                      SoData[0]
+                                                        .OrderApi__Payment_Type__c
+                                                    }</p></td>
                                                     <td class="payment-method"><p class="my-0">PAID</p></td>
                                                     <td class="payment-method text-end"><p class="my-0">${await convertCurrency(
-                                                        SoData[0]
-                                                          .OrderApi__Applied_Amount__c,
-                                                        SoData[0].CurrencyIsoCode
-                                                      )}</p></td>
+                                                      SoData[0]
+                                                        .OrderApi__Applied_Amount__c,
+                                                      SoData[0].CurrencyIsoCode
+                                                    )}</p></td>
                                                 </tr>
                                                   `
-                                              }
+                                            }
                                         </tfoot>
                                     </table>
                                 </div>
@@ -329,7 +370,10 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
                                       request.type == "invoice"
                                         ? `
                                         <p class="fs-5 mb-2"><b>Payment via bank transfer:</b></p>
-                                        <table class="fs-6 w-100">
+                                        
+                                          ${
+                                            request.cat == "M"
+                                              ? `<table class="fs-6 w-100">
                                             <tr>
                                                 <td><span class="fw-bold">Account:</span></td>
                                                 <td><span>International Water Association</span></td>
@@ -354,7 +398,31 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
                                                 <td><span class="fw-bold">Bank:</span></td>
                                                 <td><span>HSBC Plc, Victoria Street, London SW1H 0NJ, UK</span></td>
                                             </tr>
-                                        </table>
+                                        </table>`
+                                              : `<table class="fs-6 w-100">
+                                        <tr>
+                                            <td><span class="fw-bold">Account:</span></td>
+                                            <td><span>International Water Association</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="fw-bold">Sort Code:</span></td>
+                                            <td><span>40-07-13</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="fw-bold">Account no:</span></td>
+                                            <td><span>21 527 312</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="fw-bold">Swift Code:</span></td>
+                                            <td><span>HBUKGB4110D</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="fw-bold">IBAN:</span></td>
+                                            <td><span>GB77HBUK40071321527312</span></td>
+                                        </tr>
+                                    </table>`
+                                          }
+                                        
                                         `
                                         : `
                                         <div class="d-flex justify-content-evenly">
@@ -382,60 +450,69 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
                 </html>
                 `;
 
-        var option = {
-          browserOptions: {
-            headless: true,
-            args: ["--no-sandbox", "--disable-setuid-sandbox"],
-          },
-        };
-        const htmlToPDF = new HTMLToPDF(html, option);
+          var option = {
+            browserOptions: {
+              headless: true,
+              args: ["--no-sandbox", "--disable-setuid-sandbox"],
+            },
+          };
+          const htmlToPDF = new HTMLToPDF(html, option);
 
-        const pdf = await htmlToPDF.convert({
-          waitForNetworkIdle: true,
-          browserOptions: { defaultViewport: { width: 1920, height: 1080 } },
-          pdfOptions: { height: 1200, width: 900, timeout: 0 },
-        });
-        resolve(pdf);
-      } catch (err) {
-        reject(err);
-      }
-    });
+          const pdf = await htmlToPDF.convert({
+            waitForNetworkIdle: true,
+            browserOptions: { defaultViewport: { width: 1920, height: 1080 } },
+            pdfOptions: { height: 1200, width: 900, timeout: 0 },
+          });
+          resolve(pdf);
+        } catch (err) {
+          reject(err);
+        }
+      });
 
-    res.set("Content-Type", "application/pdf");
-    res.set(
-      "Content-disposition",
-      `attachment;filename=${request.type}-${SoData[0].Name}-${moment(CurDate).format(
-        "DD-MM-YYYY hh-mm-ss"
-      )}.pdf`
-    );
-    res.send(result);
-  } else {
-    res.send("No Data");
-  }
+      res.set("Content-Type", "application/pdf");
+      res.set(
+        "Content-disposition",
+        `attachment;filename=${request.type}-${SoData[0].Name}-${moment(
+          CurDate
+        ).format("DD-MM-YYYY hh-mm-ss")}.pdf`
+      );
+      res.send(result);
+    } else {
+      res.send("No Data");
+    }
   } catch (error) {
-   res.send("Sorry! Try again later..");
+    console.log(error);
+    res.send("Sorry! Try again later..");
     return;
   }
 
   return;
 });
 
-const processInvLine = async (value) => {
+const processInvLine = async (value, request) => {
   var text = "";
   for (const item of value) {
     text += ` <tr class="border-top-hidden">
-            <td class="text-center"><p class="mb-1">${item.OrderApi__Quantity__c}</p></td>
+            <td class="text-center"><p class="mb-1">${
+              item.OrderApi__Quantity__c
+            }</p></td>
             <td>
+
               <p class="mb-1"><b>${item.OrderApi__Item_Name__c}&nbsp;${
-      item.OrderApi__Item__r.FON_Journal_Item__c == false
+      request.cat == "M" && item.OrderApi__Item__r.FON_Journal_Item__c == false
         ? "Membership Subscription"
         : ""
     }</b></p>
               <p class="mb-1">${
-                item.OrderApi__Subscription_Plan__r?.Name
+                request.cat == "M"
                   ? item.OrderApi__Subscription_Plan__r?.Name
+                    ? item.OrderApi__Subscription_Plan__r?.Name
+                    : ""
+                  : item?.Price_Rule_Name__c
+                  ? item.Price_Rule_Name__c
                   : ""
               }</p>
+
             </td>
             <td class="text-end"><p class="mb-1">${await convertCurrency(
               item.OrderApi__Sale_Price__c,
