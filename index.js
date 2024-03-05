@@ -405,6 +405,10 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
                                             <td><span>International Water Association</span></td>
                                         </tr>
                                         <tr>
+                                            <td><span class="fw-bold">Bank Name:</span></td>
+                                            <td><span>HSBC Bank Plc, The Peak, 333 Vauxhall Bridge Road, Victoria, London, SW1V 1EJ</span></td>
+                                        </tr>
+                                        <tr>
                                             <td><span class="fw-bold">Sort Code:</span></td>
                                             <td><span>40-07-13</span></td>
                                         </tr>
