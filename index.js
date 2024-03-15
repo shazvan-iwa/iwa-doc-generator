@@ -255,7 +255,7 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
                                             } Date:</span></td>
                                             <td><span>${moment(
                                               SoData[0]?.OrderApi__Date__c
-                                            ).format("DD-MMM-YYYY")}</span></td>
+                                            ).format("DD-MM-YYYY")}</span></td>
                                         </tr>
                                         <tr>
                                             <td><span class="c_blue">Membership ID:</span></td>
@@ -303,7 +303,7 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
                                                     ${
                                                       request.type == "invoice"
                                                         ? request.cat == "E"
-                                                          ? "Payment due within 10 days of the issued invoice to retain the current ticket price. Payment due on receipt of invoice, please quote invoice number with payment for reference."
+                                                          ? "Payment due within 10 days of the issued invoice to retain the current ticket price. Payment due on receipt of invoice. Please quote invoice number with payment for reference."
                                                           : "" +
                                                             "Payment due on receipt of invoice. Please quote invoice number with payment for reference."
                                                         : "Payment received "
@@ -432,7 +432,7 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
                                         <div class="d-flex justify-content-evenly">
                                             <p class="fs-5 text-center mb-0"><b>Payment received in full on:</b> &nbsp;${moment(
                                               SoData[0]?.OrderApi__Date__c
-                                            ).format("DD-MMM-YYYY")}</p>
+                                            ).format("DD-MM-YYYY")}</p>
                                             <p class="fs-5 text-center mb-0">Thank You!</p>
                                         </div>
                                         `
@@ -440,7 +440,7 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
                                         
                                     </div>
                                     <div class="my-3">
-                                        <p class="text-center">For any questions regarding this invoice, please contact:
+                                        <p class="text-center">For any questions regarding this invoice. Please contact:
                                             members@iwahq.org </p>
                                         <p class="text-center"><i>COMPANY LIMITED BY GUARANTEE. REGISTERED IN ENGLAND NO. 3597005.
                                                 REGISTERED OFFICE AS ABOVE. REGISTERED CHARITY (ENGLAND) NO. 1076690</i></p>
