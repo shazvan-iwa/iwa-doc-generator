@@ -255,7 +255,7 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
                                             } Date:</span></td>
                                             <td><span>${moment(
                                               SoData[0]?.OrderApi__Date__c
-                                            ).format("DD-MM-YYYY")}</span></td>
+                                            ).format("DD-MMM-YYYY")}</span></td>
                                         </tr>
                                         <tr>
                                             <td><span class="c_blue">Membership ID:</span></td>
@@ -432,7 +432,7 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
                                         <div class="d-flex justify-content-evenly">
                                             <p class="fs-5 text-center mb-0"><b>Payment received in full on:</b> &nbsp;${moment(
                                               SoData[0]?.OrderApi__Date__c
-                                            ).format("DD-MM-YYYY")}</p>
+                                            ).format("DD-MMM-YYYY")}</p>
                                             <p class="fs-5 text-center mb-0">Thank You!</p>
                                         </div>
                                         `
@@ -478,7 +478,7 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
         "Content-disposition",
         `attachment;filename=${request.type}-${SoData[0].Name}-${moment(
           CurDate
-        ).format("DD-MM-YYYY hh-mm-ss")}.pdf`
+        ).format("DD-MMM-YYYY hh-mm-ss")}.pdf`
       );
       res.send(result);
     } else {
