@@ -181,12 +181,12 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
                         <div class="container-fluid mt-1">
                             <div class="row">
                                 <div class="col-8">
-                                    <p id="Acc_name" class="fs-6 my-0">${
+                                    <p id="Acc_name" class="fs-6 my-0 mb-1"><b>${
                                       SoData[0]?.OrderApi__Account__r?.Name ==
                                       "IWA Individual Members Account"
                                         ? ""
                                         : SoData[0]?.OrderApi__Account__r?.Name
-                                    }</p>
+                                    }</b></p>
                                     <p id="cut_name" class="fs-6 my-0">${
                                       SoData[0]?.OrderApi__Contact__r
                                         ?.Salutation?.length > 0
@@ -305,7 +305,7 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
                                                         ? request.cat == "E"
                                                           ? "Payment due within 10 days of the issued invoice to retain the current ticket price. Payment due on receipt of invoice, please quote invoice number with payment for reference."
                                                           : "" +
-                                                            "Payment due on receipt of invoice, please quote invoice number with payment for reference."
+                                                            "Payment due on receipt of invoice. Please quote invoice number with payment for reference."
                                                         : "Payment received "
                                                     }
                                                     </p>
@@ -396,7 +396,7 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
                                             </tr>
                                             <tr>
                                                 <td><span class="fw-bold">Bank:</span></td>
-                                                <td><span>HSBC Plc, Victoria Street, London SW1H 0NJ, UK</span></td>
+                                                <td><span>HSBC plc, Victoria Street, London SW1H 0NJ, UK</span></td>
                                             </tr>
                                         </table>`
                                               : `<table class="fs-6 w-100">
@@ -440,7 +440,7 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
                                         
                                     </div>
                                     <div class="my-3">
-                                        <p class="text-center">For any questions regarding this invoice please contact:
+                                        <p class="text-center">For any questions regarding this invoice, please contact:
                                             members@iwahq.org </p>
                                         <p class="text-center"><i>COMPANY LIMITED BY GUARANTEE. REGISTERED IN ENGLAND NO. 3597005.
                                                 REGISTERED OFFICE AS ABOVE. REGISTERED CHARITY (ENGLAND) NO. 1076690</i></p>
