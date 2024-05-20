@@ -371,7 +371,7 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
                                         ? `
                                         <p class="fs-5 mb-2"><b>Payment via bank transfer:</b></p>
                                         
-                                         ${ProcessAccountDetail(request, SoData[0].CurrencyIsoCode)}
+                                         ${await ProcessAccountDetail(request, SoData[0].CurrencyIsoCode)}
                                         
                                         `
                                         : `
