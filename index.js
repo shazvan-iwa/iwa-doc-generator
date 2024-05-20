@@ -305,7 +305,7 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
                                                         ? request.cat == "E"
                                                           ? "Payment due within 10 days of the issued invoice to retain the current ticket price. Payment due on receipt of invoice. Please quote invoice number with payment for reference."
                                                           : "" +
-                                                            "Payment due on receipt of invoice. Please quote invoice number with payment for reference."
+                                                            "Payment due on receipt of invoice, please quote invoice number with payment for reference."
                                                         : "Payment received "
                                                     }
                                                     </p>
@@ -371,61 +371,7 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
                                         ? `
                                         <p class="fs-5 mb-2"><b>Payment via bank transfer:</b></p>
                                         
-                                          ${
-                                            request.cat == "M"
-                                              ? `<table class="fs-6 w-100">
-                                            <tr>
-                                                <td><span class="fw-bold">Account:</span></td>
-                                                <td><span>International Water Association</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td><span class="fw-bold">Sort Code:</span></td>
-                                                <td><span>40-07-13</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td><span class="fw-bold">Account no:</span></td>
-                                                <td><span>41 46 38 29</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td><span class="fw-bold">Swift Code:</span></td>
-                                                <td><span>HBUKGB4B</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td><span class="fw-bold">IBAN:</span></td>
-                                                <td><span>GB98 HBUK 4007 1341 4638 29</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td><span class="fw-bold">Bank:</span></td>
-                                                <td><span>HSBC plc, Victoria Street, London SW1H 0NJ, UK</span></td>
-                                            </tr>
-                                        </table>`
-                                              : `<table class="fs-6 w-100">
-                                        <tr>
-                                            <td><span class="fw-bold">Account:</span></td>
-                                            <td><span>International Water Association</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td><span class="fw-bold">Bank Name:</span></td>
-                                            <td><span>HSBC Bank Plc, The Peak, 333 Vauxhall Bridge Road, Victoria, London, SW1V 1EJ</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td><span class="fw-bold">Sort Code:</span></td>
-                                            <td><span>40-07-13</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td><span class="fw-bold">Account no:</span></td>
-                                            <td><span>21 527 312</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td><span class="fw-bold">Swift Code:</span></td>
-                                            <td><span>HBUKGB4110D</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td><span class="fw-bold">IBAN:</span></td>
-                                            <td><span>GB77HBUK40071321527312</span></td>
-                                        </tr>
-                                    </table>`
-                                          }
+                                         ${ProcessAccountDetail(request, SoData[0].CurrencyIsoCode)}
                                         
                                         `
                                         : `
@@ -537,6 +483,45 @@ const convertCurrency = async (value, code) => {
     currency: code,
   });
   return amt;
+};
+
+
+const ProcessAccountDetail = async (request, currency) => {
+
+  let bankdata = {
+    all: {name: 'International Water Association', sortcode: '40-07-13', AccNumber: '41 46 38 29', sfitcode: 'HBUKGB4B', iban: 'GB98 HBUK 4007 1341 4638 29', bank:'HSBC plc, Victoria Street, London SW1H 0NJ, UK'},
+    GBP: {name: 'International Water Association', sortcode: '40-07-13', AccNumber: '21 52 73 12', sfitcode: 'HBUKGB4B', iban: 'GB77 HBUK 4007 1321 5273 12', bank:'HSBC plc, Victoria Street, London SW1H 0NJ, UK'},
+    USD: {name: 'International Water Association USD', sortcode: '40-12-76', AccNumber: '69 85 88 23', sfitcode: 'HBUKGB41CM1', iban: 'GB17 HBUK 4012 7669 8588 23', bank:'HSBC plc, Victoria Street, London SW1H 0NJ, UK'},
+    EUR: {name: 'International Water Association EURO', sortcode: '40-12-76', AccNumber: '57 36 90 04', sfitcode: 'HBUKGB41CM1', iban: 'GB17 HBUK 4012 7657 3690 04', bank:'HSBC plc, Victoria Street, London SW1H 0NJ, UK'},
+  }
+
+  var Html = `<table class="fs-6 w-100">
+                <tr>
+                    <td><span class="fw-bold">Account:</span></td>
+                    <td><span>${bankdata[request.cat == "M"?'all':currency].name}</span></td>
+                </tr>
+                <tr>
+                    <td><span class="fw-bold">Sort Code:</span></td>
+                    <td><span>${bankdata[request.cat == "M"?'all':currency].sortcode}</span></td>
+                </tr>
+                <tr>
+                    <td><span class="fw-bold">Account no:</span></td>
+                    <td><span>${bankdata[request.cat == "M"?'all':currency].AccNumber}</span></td>
+                </tr>
+                <tr>
+                    <td><span class="fw-bold">Swift Code:</span></td>
+                    <td><span>${bankdata[request.cat == "M"?'all':currency].sfitcode}</span></td>
+                </tr>
+                <tr>
+                    <td><span class="fw-bold">IBAN:</span></td>
+                    <td><span>${bankdata[request.cat == "M"?'all':currency].iban}</span></td>
+                </tr>
+                <tr>
+                    <td><span class="fw-bold">Bank:</span></td>
+                    <td><span>${bankdata[request.cat == "M"?'all':currency].bank}</span></td>
+                </tr>
+              </table>`;
+  return Html;  
 };
 
 app.listen(PORT, (error) => {
