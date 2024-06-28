@@ -48,7 +48,7 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
         }
       );
       var SoLineData = await conn.query(
-        `select Id, Price_Rule_Name__c, OrderApi__Sale_Price__c, OrderApi__Sales_Order__c, OrderApi__Item__r.OrderApi__Is_Contribution__c, OrderApi__Item__r.FON_Journal_Item__c, OrderApi__Item_Name__c, OrderApi__Subscription_Plan__r.Name, OrderApi__Quantity__c, OrderApi__Subscription_Start_Date__c, OrderApi__End_Date__c, OrderApi__Subtotal__c, CurrencyIsoCode from OrderApi__Sales_Order_Line__c  where OrderApi__Sales_Order__c = '${request.so_id}' order by Id asc`,
+        `select Id, OrderApi__Contact__r.Name, Price_Rule_Name__c, OrderApi__Sale_Price__c, OrderApi__Sales_Order__c, OrderApi__Item__r.OrderApi__Is_Contribution__c, OrderApi__Item__r.FON_Journal_Item__c, OrderApi__Item_Name__c, OrderApi__Subscription_Plan__r.Name, OrderApi__Quantity__c, OrderApi__Subscription_Start_Date__c, OrderApi__End_Date__c, OrderApi__Subtotal__c, CurrencyIsoCode from OrderApi__Sales_Order_Line__c  where OrderApi__Sales_Order__c = '${request.so_id}' order by Id asc`,
         function (err, result) {
           if (err) {
             res.send({ err2: err });
@@ -69,7 +69,7 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
         }
       );
       var SoLineData = await conn.query(
-        `select Id, OrderApi__Sale_Price__c, OrderApi__Sales_Order__c, OrderApi__Item__r.OrderApi__Is_Contribution__c, OrderApi__Item__r.FON_Journal_Item__c, OrderApi__Item_Name__c, OrderApi__Subscription_Plan__r.Name, OrderApi__Quantity__c,   OrderApi__Subtotal__c, CurrencyIsoCode from OrderApi__Receipt_Line__c  where OrderApi__Receipt__c = '${request.so_id}' order by Id asc`,
+        `select Id, OrderApi__Contact__r.Name, OrderApi__Sale_Price__c, OrderApi__Sales_Order__c, OrderApi__Item__r.OrderApi__Is_Contribution__c, OrderApi__Item__r.FON_Journal_Item__c, OrderApi__Item_Name__c, OrderApi__Subscription_Plan__r.Name, OrderApi__Quantity__c,   OrderApi__Subtotal__c, CurrencyIsoCode from OrderApi__Receipt_Line__c  where OrderApi__Receipt__c = '${request.so_id}' order by Id asc`,
         function (err, result) {
           if (err) {
             res.send({ err2: err });
@@ -507,7 +507,7 @@ const processInvLine = async (value, request) => {
             }</p></td>
             <td>
 
-              <p class="mb-1"><b>${item.OrderApi__Item_Name__c}&nbsp;${
+              <p class="mb-1"><b> ${item.OrderApi__Contact__r.Name} ${item.OrderApi__Item_Name__c}&nbsp;${
       request.cat == "M" && (item.OrderApi__Item__r.FON_Journal_Item__c == false && item.OrderApi__Item__r.OrderApi__Is_Contribution__c === false)
         ? "Membership Subscription"
         : ""
