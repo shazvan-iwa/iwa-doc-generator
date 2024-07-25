@@ -453,7 +453,7 @@ const processInvLine = async (value, request) => {
             }</p></td>
             <td>
 
-              <p class="mb-1"><b> ${request.cat == "M" && request.type == "invoice" ? '': item.OrderApi__Contact__r.Name + '&nbsp;-&nbsp;'} ${item.OrderApi__Item_Name__c}&nbsp;${
+              <p class="mb-1"><b> ${request.cat == "M" || request.type == "receipt" ? '': item.OrderApi__Contact__r.Name + '&nbsp;-&nbsp;'} ${item.OrderApi__Item_Name__c}&nbsp;${
       request.cat == "M" && (item.OrderApi__Item__r.FON_Journal_Item__c == false && item.OrderApi__Item__r.OrderApi__Is_Contribution__c === false)
         ? "Membership Subscription"
         : ""
