@@ -401,7 +401,15 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
                                     </div>
                                     <div class="my-3">
                                         <p class="text-center">For any questions regarding this invoice. Please contact:
-                                            members@iwahq.org </p>
+                                            ${
+                                              request.cat == "E" ?
+                                              `
+                                              <a href="mailto:registration.wdc@iwahq.org">registration.wdc@iwahq.org</a>
+                                              `
+                                              : `
+                                              <a href="mailto:members@iwahq.org">members@iwahq.org</a>
+                                              `
+                                            }</p>
                                         <p class="text-center"><i>COMPANY LIMITED BY GUARANTEE. REGISTERED IN ENGLAND NO. 3597005.
                                                 REGISTERED OFFICE AS ABOVE. REGISTERED CHARITY (ENGLAND) NO. 1076690</i></p>
                                     </div>
