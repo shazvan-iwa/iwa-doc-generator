@@ -314,7 +314,7 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
                                                       request.type == "invoice"
                                                         ? request.cat == "E"
                                                           ? (
-                                                            individualOrGroup.length > 5 ?
+                                                            individualOrGroup < 6 ?
                                                             "Payment due within 15 days from the date of issued invoice to retain the current ticket price. Please quote the invoice number when making payment."
                                                             : "Payment due within 30 days from the date of issued invoice retain the current ticket price. Please quote the invoice number when making payment."
                                                           )
