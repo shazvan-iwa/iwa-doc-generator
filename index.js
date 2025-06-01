@@ -79,8 +79,13 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
         }
       );
     }
-
+    var individualOrGroup = 0;
     if (SoLineData.length > 0) {
+      var individualOrGroup_arr = SoLineData.filter(so => so.OrderApi__Item_Name__c.toLowerCase().includes("delegate"));
+      if(individualOrGroup_arr && individualOrGroup_arr.length > 0){
+        individualOrGroup = individualOrGroup_arr.length
+      }
+      
       var SOLineTxt = await processInvLine(SoLineData, request);
     } else {
       var SOLineTxt = [];
@@ -308,10 +313,11 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
                                                     ${
                                                       request.type == "invoice"
                                                         ? request.cat == "E"
-                                                          ? `<br/><p style="margin-bottom: 0px;">For Individual Registrations:</p>
-                                                              <p>Payment is due within 15 days from the date of the issued invoice to retain the current ticket price. Please quote the invoice number when making the payment for reference.</p>
-                                                              <p style="margin-bottom: 0px;">For Group Registrations:</p>
-                                                              <p style="margin-bottom: 0px;">Payment is due within 30 days from the date of the issued invoice to retain the current ticket price. Please ensure the invoice number is referenced in the payment.</p>`
+                                                          ? (
+                                                            individualOrGroup.length > 5 ?
+                                                            "Payment due within 15 days from the date of issued invoice to retain the current ticket price. Please quote the invoice number when making payment."
+                                                            : "Payment due within 30 days from the date of issued invoice retain the current ticket price. Please quote the invoice number when making payment."
+                                                          )
                                                           : "" +
                                                             "Payment due on receipt of invoice, please quote invoice number with payment for reference."
                                                         : "Payment received "
