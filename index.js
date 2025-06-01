@@ -308,7 +308,10 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
                                                     ${
                                                       request.type == "invoice"
                                                         ? request.cat == "E"
-                                                          ? "Payment due within 10 days of the issued invoice to retain the current ticket price. Payment due on receipt of invoice. Please quote invoice number with payment for reference."
+                                                          ? `<b>For Individual Registrations:</b>
+                                                              <p>Payment is due within 15 days from the date of the issued invoice to retain the current ticket price. Please quote the invoice number when making the payment for reference.</p>
+                                                              <b>For Group Registrations:</b>
+                                                              <p>Payment is due within 30 days from the date of the issued invoice to retain the current ticket price. Please ensure the invoice number is referenced in the payment.</p>`
                                                           : "" +
                                                             "Payment due on receipt of invoice, please quote invoice number with payment for reference."
                                                         : "Payment received "
