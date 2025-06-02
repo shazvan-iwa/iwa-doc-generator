@@ -404,7 +404,7 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
                                             ${
                                               request.cat == "E" ?
                                               `
-                                              <a href="mailto:registration.wdc@iwahq.org">registration.wdc@iwahq.org</a>
+                                              <a href="mailto:registration.wdce@iwahq.org">registration.wdce@iwahq.org</a>
                                               `
                                               : `
                                               <a href="mailto:members@iwahq.org">members@iwahq.org</a>
