@@ -267,19 +267,23 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
                                               SoData[0]?.OrderApi__Date__c
                                             ).format("DD-MMM-YYYY")}</span></td>
                                         </tr>
-                                        <tr>
-                                            <td><span class="c_blue">Membership ID:</span></td>
-                                            <td><span>${
-                                              SoData[0]?.OrderApi__Account__r
-                                                ?.Name ==
-                                              "IWA Individual Members Account"
-                                                ? SoData[0].OrderApi__Contact__r
-                                                    ?.FON_Contact_Ref__c
-                                                : SoData[0]
-                                                    ?.OrderApi__Account__r
-                                                    ?.FON_Account_Ref__c
-                                            }</span></td>
-                                        </tr>
+                                        ${
+                                          request.cat == "M"? `
+                                            <tr>
+                                                <td><span class="c_blue">Membership ID:</span></td>
+                                                <td><span>${
+                                                  SoData[0]?.OrderApi__Account__r
+                                                    ?.Name ==
+                                                  "IWA Individual Members Account"
+                                                    ? SoData[0].OrderApi__Contact__r
+                                                        ?.FON_Contact_Ref__c
+                                                    : SoData[0]
+                                                        ?.OrderApi__Account__r
+                                                        ?.FON_Account_Ref__c
+                                                }</span></td>
+                                            </tr>
+                                          `:``
+                                        }
                                     </table>
                                 </div>
                             </div>
