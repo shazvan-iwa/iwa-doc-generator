@@ -319,8 +319,8 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
                                                         ? request.cat == "E"
                                                           ? (
                                                             individualOrGroup < 5 ?
-                                                            "Payment due within 15 days from the date of issued invoice to retain the current ticket price. Please quote the invoice number when making payment."
-                                                            : "Payment due within 30 days from the date of issued invoice retain the current ticket price. Please quote the invoice number when making payment."
+                                                            "Payment due within 15 days from the date of issued invoice to retain the current ticket price. To ensure your registration is processed promptly, <b>please send us your bank transfer payment receipt as soon as the transaction is completed at registration.wdce@iwahq.org.</b>"
+                                                            : "Payment due within 30 days from the date of issued invoice retain the current ticket price. To ensure your registration is processed promptly, <b>please send us your bank transfer payment receipt as soon as the transaction is completed at registration.wdce@iwahq.org.</b>"
                                                           )
                                                           : "" +
                                                             "Payment due on receipt of invoice, please quote invoice number with payment for reference."
