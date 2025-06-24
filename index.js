@@ -33,8 +33,8 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
     var conn = new jsforce.Connection({
       instanceUrl:
         request.version == "v1"
-          ? process.env.SF_BASEURL_PRO
-          : process.env.SF_BASEURL,
+          ? process.env.SF_BASEURL_PRO.replace("client_sec", "client_secret")
+          : process.env.SF_BASEURL.replace("client_sec", "client_secret"),
       accessToken: token.data.access_token,
     });
     if (request.type == "invoice") {
