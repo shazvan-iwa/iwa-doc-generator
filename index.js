@@ -33,8 +33,8 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
     var conn = new jsforce.Connection({
       instanceUrl:
         request.version == "v1"
-          ? process.env.SF_BASEURL_PRO.replace("client_sec", "client_secret")
-          : process.env.SF_BASEURL.replace("client_sec", "client_secret"),
+          ? 'https://internationalwaterassociation.my.salesforce.com/services/oauth2/token?grant_type=password&client_id=3MVG9sh10GGnD4Ds.YgG5M63AQqd5WcX.aN8zMxgKNLBHXd_cyOSsKSWOP7ODRLmfXwcFh5oOXTncxgq5UEZf&client_secret=3E3381FE54DDD1CEC12718A6E58711BB7A8F570714AAF135B32A8D925EE3E66E'+process.env.SF_BASEURL_PRO
+          : 'https://internationalwaterassociation.my.salesforce.com/services/oauth2/token?grant_type=password&client_id=3MVG9sh10GGnD4Ds.YgG5M63AQqd5WcX.aN8zMxgKNLBHXd_cyOSsKSWOP7ODRLmfXwcFh5oOXTncxgq5UEZf&client_secret=3E3381FE54DDD1CEC12718A6E58711BB7A8F570714AAF135B32A8D925EE3E66E'+process.env.SF_BASEURL,
       accessToken: token.data.access_token,
     });
     if (request.type == "invoice") {
