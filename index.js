@@ -24,7 +24,6 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
     return;
   }
 
-  //
   try {
     var token = await axios.post(
       request.version == "v1" ? process.env.SF_LOGIN_PRO : process.env.SF_LOGIN
