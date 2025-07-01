@@ -526,6 +526,44 @@ const ProcessAccountDetail = async (request, currency) => {
     EUR: {name: 'International Water Association EURO', sortcode: '40-12-76', AccNumber: '57 36 90 04', sfitcode: 'HBUKGB41CM1', iban: 'GB17 HBUK 4012 7657 3690 04', bank:'HSBC plc, Victoria Street, London SW1H 0NJ, UK'},
   }
 
+  if(request.cat == "WH"){
+    bankdata = {
+      "CAD": {
+        "name": "IWA-Conferences Limited",
+        "sortcode": "40-12-76",
+        "AccNumber": "91 34 60 92",
+        "sfitcode": "HBUKGB4B",
+        "iban": "GB75 HBUK 4012 7691 3460 92",
+        "bank": "HSBC Bank Plc"
+      },
+      "GBP": {
+        "name": "IWA-Conferences Limited",
+        "sortcode": "40-02-44",
+        "AccNumber": "54 13 32 42",
+        "sfitcode": "HBUKGB4B",
+        "iban": "GB61 HBUK 4002 4454 1332 42",
+        "bank": "HSBC Bank Plc"
+      },
+      "EUR": {
+        "name": "IWA-Conferences Limited",
+        "sortcode": "40-12-76",
+        "AccNumber": "91 34 61 00",
+        "sfitcode": "HBUKGB4B",
+        "iban": "GB53 HBUK 4012 7691 3461 00",
+        "bank": "HSBC Bank Plc"
+      },
+      "USD": {
+        "name": "IWA-Conferences Limited",
+        "sortcode": "40-12-76",
+        "AccNumber": "91 34 61 19",
+        "sfitcode": "HBUKGB4B",
+        "iban": "GB25 HBUK 4012 7691 3461 19",
+        "bank": "HSBC Bank Plc"
+      }
+    }
+    
+  }
+
   var Html = `<table class="fs-6 w-100">
                 <tr>
                     <td><span class="fw-bold">Account:</span></td>
