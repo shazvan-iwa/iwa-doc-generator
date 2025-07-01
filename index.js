@@ -410,10 +410,15 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
                                               `
                                               <a href="mailto:registration.wdce@iwahq.org">registration.wdce@iwahq.org</a>
                                               `
-                                              : `
-                                              <a href="mailto:members@iwahq.org">members@iwahq.org</a>
+                                              : request.cat == "WH" ? 
                                               `
-                                            }</p>
+                                                <a href="mailto:imran.vohra@iwahq.org">imran.vohra@iwahq.org</a>
+                                              `
+                                              : `
+                                                <a href="mailto:members@iwahq.org">members@iwahq.org</a>
+                                              `
+                                            }
+                                          </p>
                                         <p class="text-center"><i>COMPANY LIMITED BY GUARANTEE. REGISTERED IN ENGLAND NO. 3597005.
                                                 REGISTERED OFFICE AS ABOVE. REGISTERED CHARITY (ENGLAND) NO. 1076690</i></p>
                                     </div>
