@@ -69,7 +69,7 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
         }
       );
       var SoLineData = await conn.query(
-        `select Id, OrderApi__Contact__r.Name, OrderApi__Price_Rule__r.Name OrderApi__Sale_Price__c, OrderApi__Sales_Order__c, OrderApi__Item__r.OrderApi__Is_Contribution__c, OrderApi__Item__r.FON_Journal_Item__c, OrderApi__Item_Name__c, OrderApi__Subscription_Plan__r.Name, OrderApi__Quantity__c,   OrderApi__Subtotal__c, CurrencyIsoCode from OrderApi__Receipt_Line__c  where OrderApi__Receipt__c = '${request.so_id}' order by Id asc`,
+        `select Id, OrderApi__Contact__r.Name, OrderApi__Price_Rule__r.Name, OrderApi__Sale_Price__c, OrderApi__Sales_Order__c, OrderApi__Item__r.OrderApi__Is_Contribution__c, OrderApi__Item__r.FON_Journal_Item__c, OrderApi__Item_Name__c, OrderApi__Subscription_Plan__r.Name, OrderApi__Quantity__c,   OrderApi__Subtotal__c, CurrencyIsoCode from OrderApi__Receipt_Line__c  where OrderApi__Receipt__c = '${request.so_id}' order by Id asc`,
         function (err, result) {
           if (err) {
             res.send({ err2: err });
