@@ -38,13 +38,7 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
     });
     if (request.type == "invoice") {
       var SoData = await conn.query(
-        `select Id, Name, OrderApi__Account__r.FON_Account_Ref__c, OrderApi__Account__r.Name, OrderApi__Overall_Total__c, CurrencyIsoCode, OrderApi__Date__c, OrderApi__Paid_Date__c, OrderApi__Billing_City__c, OrderApi__Billing_Contact__c, OrderApi__Billing_Country__c, OrderApi__Billing_Postal_Code__c, OrderApi__Billing_State__c, OrderApi__Billing_Street__c, 
-        OrderApi__Contact__r.Event_Billing_Section__Street__s, 
-        OrderApi__Contact__r.Event_Billing_Section__PostalCode__s, 
-        OrderApi__Contact__r.Event_Billing_Section__City__s, 
-        OrderApi__Contact__r.Event_Billing_Section__State__s, 
-        OrderApi__Contact__r.Event_Billing_Section__Country__s,  
-        OrderApi__Contact__r.Salutation, OrderApi__Contact__r.FON_Contact_Ref__c from OrderApi__Sales_Order__c where Id = '${request.so_id}' order by Id asc`,
+        `select Id, Name, OrderApi__Account__r.FON_Account_Ref__c, OrderApi__Account__r.Name, OrderApi__Overall_Total__c, CurrencyIsoCode, OrderApi__Date__c, OrderApi__Paid_Date__c, OrderApi__Billing_City__c, OrderApi__Billing_Contact__c, OrderApi__Billing_Country__c, OrderApi__Billing_Postal_Code__c, OrderApi__Billing_State__c, OrderApi__Billing_Street__c,OrderApi__Contact__r.Event_Billing_Section__Street__s, OrderApi__Contact__r.Event_Billing_Section__PostalCode__s, OrderApi__Contact__r.Event_Billing_Section__City__s, OrderApi__Contact__r.Event_Billing_Section__StateCode__s, OrderApi__Contact__r.Event_Billing_Section__CountryCode__s, OrderApi__Contact__r.Salutation, OrderApi__Contact__r.FON_Contact_Ref__c from OrderApi__Sales_Order__c where Id = '${request.so_id}' order by Id asc`,
         function (err, result) {
           if (err) {
             res.send({ err1: err });
@@ -65,13 +59,7 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
       );
     } else if (request.type == "receipt") {
       var SoData = await conn.query(
-        `select Id, Name, OrderApi__Account__r.FON_Account_Ref__c, OrderApi__Account__r.Name, OrderApi__Total__c, OrderApi__Payment_Type__c, OrderApi__Applied_Amount__c, CurrencyIsoCode, OrderApi__Date__c,  OrderApi__Billing_City__c, OrderApi__Billing_Contact__c, OrderApi__Billing_Country__c, OrderApi__Billing_Postal_Code__c, OrderApi__Billing_State__c, OrderApi__Billing_Street__c, 
-        OrderApi__Contact__r.Event_Billing_Section__Street__s, 
-        OrderApi__Contact__r.Event_Billing_Section__PostalCode__s, 
-        OrderApi__Contact__r.Event_Billing_Section__City__s, 
-        OrderApi__Contact__r.Event_Billing_Section__State__s, 
-        OrderApi__Contact__r.Event_Billing_Section__Country__s, 
-        OrderApi__Contact__r.Salutation, OrderApi__Contact__r.FON_Contact_Ref__c from OrderApi__Receipt__c where Id = '${request.so_id}' order by Id asc`,
+        `select Id, Name, OrderApi__Account__r.FON_Account_Ref__c, OrderApi__Account__r.Name, OrderApi__Total__c, OrderApi__Payment_Type__c, OrderApi__Applied_Amount__c, CurrencyIsoCode, OrderApi__Date__c,  OrderApi__Billing_City__c, OrderApi__Billing_Contact__c, OrderApi__Billing_Country__c, OrderApi__Billing_Postal_Code__c, OrderApi__Billing_State__c, OrderApi__Billing_Street__c, OrderApi__Contact__r.Event_Billing_Section__Street__s, OrderApi__Contact__r.Event_Billing_Section__PostalCode__s, OrderApi__Contact__r.Event_Billing_Section__City__s, OrderApi__Contact__r.Event_Billing_Section__StateCode__s, OrderApi__Contact__r.Event_Billing_Section__CountryCode__s, OrderApi__Contact__r.Salutation, OrderApi__Contact__r.FON_Contact_Ref__c from OrderApi__Receipt__c where Id = '${request.so_id}' order by Id asc`,
         function (err, result) {
           if (err) {
             res.send({ err1: err });
@@ -247,9 +235,9 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
                                     }</p>
                                     <p id="cut_add_state" class="fs-6 my-0">${
                                       (request.cat == "E" ? 
-                                        `${SoData[0]?.OrderApi__Contact__r?.Event_Billing_Section__State__s
+                                        `${SoData[0]?.OrderApi__Contact__r?.Event_Billing_Section__StateCode__s
                                         ?.length > 0
-                                        ? SoData[0]?.OrderApi__Contact__r?.Event_Billing_Section__State__s
+                                        ? SoData[0]?.OrderApi__Contact__r?.Event_Billing_Section__StateCode__s
                                         : ""}`
                                         :
                                         `${SoData[0]?.OrderApi__Billing_State__c
@@ -276,10 +264,10 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
                                     }</p>
                                     <p id="cut_add_country" class="fs-6 my-0">${
                                       (request.cat == "E" ? 
-                                        `${SoData[0]?.OrderApi__Contact__r?.Event_Billing_Section__Country__s
+                                        `${SoData[0]?.OrderApi__Contact__r?.Event_Billing_Section__CountryCode__s
                                         ?.length > 0
                                         ? SoData[0]
-                                            ?.OrderApi__Contact__r?.Event_Billing_Section__Country__s
+                                            ?.OrderApi__Contact__r?.Event_Billing_Section__CountryCode__s
                                         : ""}`
                                         :
                                         `${SoData[0]?.OrderApi__Billing_Country__c
