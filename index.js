@@ -307,11 +307,11 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
                                           request.type == "invoice"
                                             ? ""
                                             : `<tr>
-                                            <td><span class="c_blue">Invoice No:</span> </td>
-                                            <td><span>
-                                            ${SoData[0]?.OrderApi__Sales_Order__r.Name}
-                                            </span></td>
-                                        </tr>`
+                                                  <td><span class="c_blue">Invoice No:</span> </td>
+                                                  <td><span>
+                                                  ${SoData[0]?.OrderApi__Sales_Order__r.Name}
+                                                  </span></td>
+                                              </tr>`
                                         }
                                         <tr>
                                             <td><span class="c_blue">${
