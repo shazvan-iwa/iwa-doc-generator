@@ -48,7 +48,7 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
         }
       );
       var SoLineData = await conn.query(
-        `select Id, OrderApi__Contact__r.Name, Price_Rule_Name__c, OrderApi__Sale_Price__c, OrderApi__Sales_Order__c, OrderApi__Item__r.OrderApi__Is_Contribution__c, OrderApi__Item__r.FON_Journal_Item__c, OrderApi__Item_Name__c, OrderApi__Subscription_Plan__r.Name, OrderApi__Quantity__c, OrderApi__Subscription_Start_Date__c, OrderApi__End_Date__c, OrderApi__Subtotal__c, CurrencyIsoCode from OrderApi__Sales_Order_Line__c  where OrderApi__Sales_Order__c = '${request.so_id}' order by Id asc`,
+        `select EventApi__Event__r.Sender_Email__c, Id, OrderApi__Contact__r.Name, Price_Rule_Name__c, OrderApi__Sale_Price__c, OrderApi__Sales_Order__c, OrderApi__Item__r.OrderApi__Is_Contribution__c, OrderApi__Item__r.FON_Journal_Item__c, OrderApi__Item_Name__c, OrderApi__Subscription_Plan__r.Name, OrderApi__Quantity__c, OrderApi__Subscription_Start_Date__c, OrderApi__End_Date__c, OrderApi__Subtotal__c, CurrencyIsoCode from OrderApi__Sales_Order_Line__c  where OrderApi__Sales_Order__c = '${request.so_id}' order by Id asc`,
         function (err, result) {
           if (err) {
             res.send({ err2: err });
@@ -375,8 +375,8 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
                                                         ? request.cat == "E"
                                                           ? (
                                                             individualOrGroup < 5 ?
-                                                            "Payment due within 7 days from the date of issued invoice to retain the current ticket price. To ensure your registration is processed promptly, <b>please send us your bank transfer payment receipt as soon as the transaction is completed at registration.wdce@iwahq.org. Any bank transfer fees and charges are the responsibility of the delegate.</b>"
-                                                            : "Payment due within 7 days from the date of issued invoice retain the current ticket price. To ensure your registration is processed promptly, <b>please send us your bank transfer payment receipt as soon as the transaction is completed at registration.wdce@iwahq.org. Any bank transfer fees and charges are the responsibility of the delegate.</b>"
+                                                            "Payment due within 15 days from the date of issued invoice to retain the current ticket price. To ensure your registration is processed promptly, <b>please send us your bank transfer payment receipt as soon as the transaction is completed at "+SoLineData[0].EventApi__Event__r.Sender_Email__c+". Any bank transfer fees and charges are the responsibility of the delegate.</b>"
+                                                            : "Payment due within 30 days from the date of issued invoice retain the current ticket price. To ensure your registration is processed promptly, <b>please send us your bank transfer payment receipt as soon as the transaction is completed at "+SoLineData[0].EventApi__Event__r.Sender_Email__c+". Any bank transfer fees and charges are the responsibility of the delegate.</b>"
                                                           )
                                                           : "" +
                                                             "Payment due on receipt of invoice, please quote invoice number with payment for reference."
@@ -464,7 +464,7 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
                                             ${
                                               request.cat == "E" ?
                                               `
-                                              <a href="mailto:registration.wdce@iwahq.org">registration.wdce@iwahq.org</a>
+                                              <a href="mailto:${SoLineData[0].EventApi__Event__r.Sender_Email__c}">${SoLineData[0].EventApi__Event__r.Sender_Email__c}</a>
                                               `
                                               : request.cat == "WH" ? 
                                               `
