@@ -464,7 +464,7 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
                                             ${
                                               request.cat == "E" ?
                                               `
-                                              <a href="mailto:${SoLineData[0].EventApi__Event__r.Sender_Email__c}">${SoLineData[0].EventApi__Event__r.Sender_Email__c}</a>
+                                              <a href="mailto:${SoLineData[0]?.EventApi__Event__r?.Sender_Email__c}">${SoLineData[0]?.EventApi__Event__r?.Sender_Email__c}</a>
                                               `
                                               : request.cat == "WH" ? 
                                               `
@@ -547,7 +547,7 @@ const processInvLine = async (value, request) => {
                     : ""
                   : item?.Price_Rule_Name__c
                   ? item.Price_Rule_Name__c
-                  : (item.OrderApi__Price_Rule__r.Name ? item.OrderApi__Price_Rule__r.Name : '')
+                  : (item.OrderApi__Price_Rule__r?.Name ? item.OrderApi__Price_Rule__r?.Name : '')
               }</p>
 
             </td>
