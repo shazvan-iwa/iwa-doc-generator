@@ -29,7 +29,7 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
       request.version == "v1" ? process.env.SF_LOGIN_PRO : process.env.SF_LOGIN
     );
 
-    const countryList = await axios.post('https://www.iwaconnectplus.com/api/event-attendee/get-country')
+    const countryList = await axios.get('https://www.iwaconnectplus.com/api/event-attendee/get-country')
 
     var conn = new jsforce.Connection({
       instanceUrl:
