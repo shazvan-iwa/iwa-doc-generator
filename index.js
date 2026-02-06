@@ -53,7 +53,9 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
       if(request.cat == "E"){
         //SoData[0]?.OrderApi__Contact__r?.Event_Billing_Section__CountryCode__s
 
-        const selectedCountry = countryList.data.filter((f) => f.fon_iso_code__c.toLowerCase() === SoData[0]?.OrderApi__Contact__r?.Event_Billing_Section__CountryCode__s.toLowerCase());
+        //
+
+        const selectedCountry = countryList.data.data.filter((f) => {f.fon_iso_code__c === SoData[0]?.OrderApi__Contact__r?.Event_Billing_Section__CountryCode__s});
 
         const stateAll = await conn.apex.get("/getstatesbycountry?countrycode=" + SoData[0]?.OrderApi__Contact__r?.Event_Billing_Section__CountryCode__s, function (err, result){
           if (err) {
@@ -92,7 +94,7 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
       if(request.cat == "E"){
         //SoData[0]?.OrderApi__Contact__r?.Event_Billing_Section__CountryCode__s
 
-        const selectedCountry = countryList.data.filter((f) => f.fon_iso_code__c.toLowerCase() === SoData[0]?.OrderApi__Contact__r?.Event_Billing_Section__CountryCode__s.toLowerCase());
+        const selectedCountry = countryList.data.data.filter((f) => f.fon_iso_code__c.toLowerCase() === SoData[0]?.OrderApi__Contact__r?.Event_Billing_Section__CountryCode__s.toLowerCase());
 
         const stateAll = await conn.apex.get("/getstatesbycountry?countrycode=" + SoData[0]?.OrderApi__Contact__r?.Event_Billing_Section__CountryCode__s, function (err, result){
           if (err) {
