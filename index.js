@@ -24,6 +24,9 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
     return;
   }
 
+  var selectedState  = '';
+  var selectedCountry = ''
+
   try {
     var token = await axios.post(
       request.version == "v1" ? process.env.SF_LOGIN_PRO : process.env.SF_LOGIN
@@ -51,21 +54,23 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
       );
 
       if(request.cat == "E"){
-        //SoData[0]?.OrderApi__Contact__r?.Event_Billing_Section__CountryCode__s
+        
+        try {
+          selectedCountry = await countryList.data.data.filter((f) => f.fon_iso_code__c == SoData[0]?.OrderApi__Contact__r?.Event_Billing_Section__CountryCode__s);
 
-        //
+          const stateAll = await conn.apex.get("/getstatesbycountry?countrycode=" + SoData[0]?.OrderApi__Contact__r?.Event_Billing_Section__CountryCode__s, function (err, result){
+            if (err) {
+              res.send({ err2: err });
+              return;
+            }
+            return result;
+          });
 
-        const selectedCountry = countryList.data.data.filter((f) => {f.fon_iso_code__c === SoData[0]?.OrderApi__Contact__r?.Event_Billing_Section__CountryCode__s});
+          selectedState = await stateAll.filter((f) => f.label == SoData[0]?.OrderApi__Contact__r?.Event_Billing_Section__StateCode__s);
 
-        const stateAll = await conn.apex.get("/getstatesbycountry?countrycode=" + SoData[0]?.OrderApi__Contact__r?.Event_Billing_Section__CountryCode__s, function (err, result){
-          if (err) {
-            res.send({ err2: err });
-            return;
-          }
-          return result;
-        });
-
-        const selectedState = stateAll.filter((f) => f.label.toLowerCase() === SoData[0]?.OrderApi__Contact__r?.OrderApi__Billing_State__c.toLowerCase());
+        } catch (error) {
+          console.log(error)
+        }    
         
       }
 
@@ -92,20 +97,23 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
       );
 
       if(request.cat == "E"){
-        //SoData[0]?.OrderApi__Contact__r?.Event_Billing_Section__CountryCode__s
+        try {
+          console.log(SoData[0]?.OrderApi__Contact__r?.Event_Billing_Section__StateCode__s)
+          selectedCountry = await countryList.data.data.filter((f) => f.fon_iso_code__c == SoData[0]?.OrderApi__Contact__r?.Event_Billing_Section__CountryCode__s);
 
-        const selectedCountry = countryList.data.data.filter((f) => f.fon_iso_code__c.toLowerCase() === SoData[0]?.OrderApi__Contact__r?.Event_Billing_Section__CountryCode__s.toLowerCase());
+          const stateAll = await conn.apex.get("/getstatesbycountry?countrycode=" + SoData[0]?.OrderApi__Contact__r?.Event_Billing_Section__CountryCode__s, function (err, result){
+            if (err) {
+              res.send({ err2: err });
+              return;
+            }
+            return result;
+          });
 
-        const stateAll = await conn.apex.get("/getstatesbycountry?countrycode=" + SoData[0]?.OrderApi__Contact__r?.Event_Billing_Section__CountryCode__s, function (err, result){
-          if (err) {
-            res.send({ err2: err });
-            return;
-          }
-          return result;
-        });
+          selectedState = await stateAll.filter((f) => f.label == SoData[0]?.OrderApi__Contact__r?.Event_Billing_Section__StateCode__s);
 
-        const selectedState = stateAll.filter((f) => f.label.toLowerCase() === SoData[0]?.OrderApi__Contact__r?.OrderApi__Billing_State__c.toLowerCase());
-        
+        } catch (error) {
+          console.log(error)
+        }        
       }
 
       var SoLineData = await conn.query(
