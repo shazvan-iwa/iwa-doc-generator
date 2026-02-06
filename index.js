@@ -29,6 +29,8 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
       request.version == "v1" ? process.env.SF_LOGIN_PRO : process.env.SF_LOGIN
     );
 
+    const countryList = await axios.post('https://www.iwaconnectplus.com/api/event-attendee/get-country')
+
     var conn = new jsforce.Connection({
       instanceUrl:
         request.version == "v1"
@@ -47,6 +49,24 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
           return result.records;
         }
       );
+
+      if(request.cat == "E"){
+        //SoData[0]?.OrderApi__Contact__r?.Event_Billing_Section__CountryCode__s
+
+        const selectedCountry = countryList.filter((f) => f.fon_iso_code__c.toLowerCase() === SoData[0]?.OrderApi__Contact__r?.Event_Billing_Section__CountryCode__s.toLowerCase());
+
+        const stateAll = await conn.apex.get("/getstatesbycountry?countrycode=" + SoData[0]?.OrderApi__Contact__r?.Event_Billing_Section__CountryCode__s, function (err, result){
+          if (err) {
+            res.send({ err2: err });
+            return;
+          }
+          return result;
+        });
+
+        const selectedState = stateAll.filter((f) => f.label.toLowerCase() === SoData[0]?.OrderApi__Contact__r?.OrderApi__Billing_State__c.toLowerCase());
+        
+      }
+
       var SoLineData = await conn.query(
         `select EventApi__Event__r.Sender_Email__c, Id, OrderApi__Contact__r.Name, Price_Rule_Name__c, OrderApi__Sale_Price__c, OrderApi__Sales_Order__c, OrderApi__Item__r.OrderApi__Is_Contribution__c, OrderApi__Item__r.FON_Journal_Item__c, OrderApi__Item_Name__c, OrderApi__Subscription_Plan__r.Name, OrderApi__Quantity__c, OrderApi__Subscription_Start_Date__c, OrderApi__End_Date__c, OrderApi__Subtotal__c, CurrencyIsoCode from OrderApi__Sales_Order_Line__c  where OrderApi__Sales_Order__c = '${request.so_id}' order by Id asc`,
         function (err, result) {
@@ -68,6 +88,24 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
           return result.records;
         }
       );
+
+      if(request.cat == "E"){
+        //SoData[0]?.OrderApi__Contact__r?.Event_Billing_Section__CountryCode__s
+
+        const selectedCountry = countryList.filter((f) => f.fon_iso_code__c.toLowerCase() === SoData[0]?.OrderApi__Contact__r?.Event_Billing_Section__CountryCode__s.toLowerCase());
+
+        const stateAll = await conn.apex.get("/getstatesbycountry?countrycode=" + SoData[0]?.OrderApi__Contact__r?.Event_Billing_Section__CountryCode__s, function (err, result){
+          if (err) {
+            res.send({ err2: err });
+            return;
+          }
+          return result;
+        });
+
+        const selectedState = stateAll.filter((f) => f.label.toLowerCase() === SoData[0]?.OrderApi__Contact__r?.OrderApi__Billing_State__c.toLowerCase());
+        
+      }
+
       var SoLineData = await conn.query(
         `select Id, OrderApi__Contact__r.Name, OrderApi__Price_Rule__r.Name, OrderApi__Sale_Price__c, OrderApi__Sales_Order__c, OrderApi__Item__r.OrderApi__Is_Contribution__c, OrderApi__Item__r.FON_Journal_Item__c, OrderApi__Item_Name__c, OrderApi__Subscription_Plan__r.Name, OrderApi__Quantity__c,   OrderApi__Subtotal__c, CurrencyIsoCode from OrderApi__Receipt_Line__c  where OrderApi__Receipt__c = '${request.so_id}' order by Id asc`,
         function (err, result) {
@@ -242,9 +280,9 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
                                     }</p>
                                     <p id="cut_add_state" class="fs-6 my-0">${
                                       (request.cat == "E" ? 
-                                        `${SoData[0]?.OrderApi__Contact__r?.Event_Billing_Section__StateCode__s
+                                        `${selectedState[0]?.value
                                         ?.length > 0
-                                        ? SoData[0]?.OrderApi__Contact__r?.Event_Billing_Section__StateCode__s
+                                        ? selectedState[0]?.value
                                         : ""}`
                                         :
                                         `${SoData[0]?.OrderApi__Billing_State__c
@@ -271,10 +309,9 @@ app.get("/:version/:cat/:type/:so_id", async (req, res) => {
                                     }</p>
                                     <p id="cut_add_country" class="fs-6 my-0">${
                                       (request.cat == "E" ? 
-                                        `${SoData[0]?.OrderApi__Contact__r?.Event_Billing_Section__CountryCode__s
+                                        `${selectedCountry[0]?.name
                                         ?.length > 0
-                                        ? SoData[0]
-                                            ?.OrderApi__Contact__r?.Event_Billing_Section__CountryCode__s
+                                        ? selectedCountry[0]?.name
                                         : ""}`
                                         :
                                         `${SoData[0]?.OrderApi__Billing_Country__c
